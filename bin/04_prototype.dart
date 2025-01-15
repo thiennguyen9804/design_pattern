@@ -1,10 +1,12 @@
-void runPrototype() {
+import 'package:equatable/equatable.dart';
 
+void runPrototype() {
+  Application();
 }
 
 abstract class Shape {
-  int x, y;
-  String color;
+  final int x, y;
+  final String color;
 
   Shape(this.x, this.y, this.color);
 
@@ -27,9 +29,8 @@ class Rectangle extends Shape {
   }
 }
 
-class Circle extends Shape {
-  late int radius;
-
+class Circle extends Shape implements Equatable {
+  final int radius;
 
   Circle(super.x, super.y, super.color, this.radius);
 
@@ -40,12 +41,20 @@ class Circle extends Shape {
     return Circle.from(this);
   }
 
+  @override
+  List<Object?> get props => [x, y, radius];
+
+  @override
+  // TODO: implement stringify
+  bool? get stringify => true;
+  
 }
 
 class Application {
   Application() {
     var circle = Circle(0, 0, "red", 10);
-    final anotherCircle = circle.clone();
+    final anotherCircle = circle.clone() as Circle;
+    print(anotherCircle.radius);
   }
 }
 
